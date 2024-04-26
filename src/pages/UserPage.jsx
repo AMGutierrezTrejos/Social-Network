@@ -7,6 +7,7 @@ const UserPage = () => {
     <>
       <UserHeader />
       <UserPost />
+      <UserPost />
     </>
   )
 }

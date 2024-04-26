@@ -35,10 +35,10 @@ const UserHeader = () => {
       <Flex justifyContent={"space-between"} w="full">
         <Box>
           <Text fontSize={"2xl"} fontWeight={"bold"}>
-            Dan Abrahmov
+            Mauricio Gutierrez
           </Text>
           <Flex gap={2} alignItems={"center"}>
-            <Text fontSize={"sm"}>@danabrahamov</Text>
+            <Text fontSize={"sm"}>@AMGutierrezTrejos</Text>
             <Text
               fontSize={"xs"}
               bg={"gray.dark"}
@@ -51,7 +51,7 @@ const UserHeader = () => {
           </Flex>
         </Box>
         <Box>
-          <Avatar name="Dan Abrahmov" src="/zuck-avatar.jpg" size={"xl"} />
+          <Avatar name="Mauricio Gutierrez" src="/mauricio-avatar.jpg" size={{ base: "md", md: "xl" }} />
         </Box>
       </Flex>
 
