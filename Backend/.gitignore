@@ -1,0 +1,64 @@
+# Dependencias
+node_modules/
+
+# Archivos de entorno
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Directorios de runtime
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Directorio de compilación
+dist
+build
+
+# Directorios IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-workspace
+
+# Archivos de sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de configuración de instaladores
+*.gem
+*.rbc
+
+# Archivos de configuración de compilación
+config.gypi
+*.vcxproj
+*.vcxproj.filters
+*.sln
+*.suo
+*.xcworkspace
+*.pbxproj
+*.backup
+*.orig
+
+# Otros
+*.tar.gz
+*.zip
+*.rar
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+*.next
