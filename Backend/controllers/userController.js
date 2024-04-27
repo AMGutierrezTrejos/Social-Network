@@ -39,4 +39,64 @@ const signupUser = async (req, res) => {
   }
 };
 
-export { signupUser };
+// Login user
+const loginUser = async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+    const isPasswordCorrect = await bycrypt.compare(
+      password,
+      user?.password || ""
+    );
+
+    if (!user || !isPasswordCorrect)
+      return res.status(400).json({ error: "Invalid username or password" });
+
+    if (user.isFrozen) {
+      user.isFrozen = false;
+      await user.save();
+    }
+
+    generateTokenAndSetCookie(user._id, res);
+
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      username: user.username,
+      bio: user.bio,
+      profilePic: user.profilePic,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+    console.log("Error in loginUser: ", error.message);
+  }
+};
+
+// Logout user
+const logoutUser = (req, res) => {
+  try {
+    res.cookie("jwt", "", { maxAge: 1 });
+    res.status(200).json({ message: "User logged out successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+    console.log("Error in logoutUser: ", error.message);
+  }
+};
+
+//Follow and unfollow user
+const followUnfollowUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userModify = await User.findById(id);
+        const currentUser = await User.findById(req.user._id);
+
+        
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+        console.log("Error in followUnfollowUser: ", error.message);
+    }
+}
+
+
+export { signupUser, loginUser, logoutUser, followUnfollowUser};
