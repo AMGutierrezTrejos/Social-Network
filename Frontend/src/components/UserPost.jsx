@@ -6,7 +6,7 @@ import { useState } from "react";
 const UserPost = () => {
   const { liked, setLiked } = useState(false);
   return (
-    <Link to={"/danabrahamov/post/1"}>
+    <Link to={"/AMGutierrezTrejos/post/1"}>
       <Flex gap={3} mb={4} py={5}>
         <Flex flexDirection={"column"} alignItems={"center"}>
           <Avatar
