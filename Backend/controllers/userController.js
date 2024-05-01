@@ -2,21 +2,21 @@ import User from "../models/userModel.js";
 import bycrypt from "bcryptjs";
 import generateTokenAndSetCookie from "../utils/helpers/generateTokenAndSetCookie.js";
 
-
 // Profile page
 const getUserProfile = async (req, res) => {
-    const {username} = req.params;
+  const { username } = req.params;
 
-    try {
-        const user = await User.findOne({username}).select("-password").select("-updatedAt");
-        if (!user) return res.status(404).json({ error: "User not found" });
+  try {
+    const user = await User.findOne({ username })
+      .select("-password")
+      .select("-updatedAt");
+    if (!user) return res.status(404).json({ error: "User not found" });
 
-        res.status(200).json(user);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-}
-
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 // Signup user
 const signupUser = async (req, res) => {
@@ -45,6 +45,8 @@ const signupUser = async (req, res) => {
         name: newUser.name,
         email: newUser.email,
         username: newUser.username,
+        bio: newUser.bio,
+        profilePic: newUser.profilePic,
       });
     } else {
       res.status(400).json({ error: "Invalid user data" });
@@ -169,6 +171,11 @@ const updateUser = async (req, res) => {
   }
 };
 
-
-
-export { signupUser, loginUser, logoutUser, followUnfollowUser, updateUser, getUserProfile };
+export {
+  signupUser,
+  loginUser,
+  logoutUser,
+  followUnfollowUser,
+  updateUser,
+  getUserProfile,
+};
