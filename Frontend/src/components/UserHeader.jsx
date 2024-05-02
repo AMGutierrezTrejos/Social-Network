@@ -14,9 +14,12 @@ import { BsInstagram } from "react-icons/bs";
 import { CgMoreO } from "react-icons/cg";
 import { useToast } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import userAtom from "../atoms/userAtom";
 
-const UserHeader = () => {
+const UserHeader = ({ user }) => {
   const toast = useToast();
+  const currentUser = useRecoilValue(userAtom);
   const copyURL = () => {
     const currentURL = window.location.href;
     navigator.clipboard.writeText(currentURL).then(() => {
@@ -35,10 +38,10 @@ const UserHeader = () => {
       <Flex justifyContent={"space-between"} w="full">
         <Box>
           <Text fontSize={"2xl"} fontWeight={"bold"}>
-            Mauricio Gutierrez
+            {user.name}
           </Text>
           <Flex gap={2} alignItems={"center"}>
-            <Text fontSize={"sm"}>@AMGutierrezTrejos</Text>
+            <Text fontSize={"sm"}>@{user.username}</Text>
             <Text
               fontSize={"xs"}
               bg={"gray.dark"}
@@ -51,16 +54,29 @@ const UserHeader = () => {
           </Flex>
         </Box>
         <Box>
-          <Avatar name="Mauricio Gutierrez" src="/mauricio-avatar.jpg" size={{ base: "md", md: "xl" }} />
+          {user.profilePic && (
+            <Avatar
+              name={user.name}
+              src={user.profilePic}
+              size={{ base: "md", md: "xl" }}
+            />
+          )}{" "}
+          {!user.profilePic && (
+            <Avatar
+              name={user.name}
+              src="https://bit.ly/dan-abramov"
+              size={{ base: "md", md: "xl" }}
+            />
+          )}
         </Box>
       </Flex>
 
       {/* SEGUNDA CAJA CON TEXTO */}
 
-      <Text> Lorem ipsum dolor sit amet consectetur adipisicing elit.</Text>
+      <Text> {user.bio}</Text>
       <Flex w={"full"} justifyContent={"space-between"}>
         <Flex gap={2} alignItems={"center"}>
-          <Text color={"gray.light"}>3.2k Followers</Text>
+          <Text color={"gray.light"}>{user.followers.length} followers</Text>
           <Box w="1" h="1" bg={"gray.light"} borderRadius={"full"}></Box>
           <Link color={"gray.light"}>instagram.com</Link>
         </Flex>

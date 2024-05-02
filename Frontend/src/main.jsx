@@ -32,6 +32,7 @@ const colors = {
 const theme = extendTheme({ styles, config, colors })
 
 ReactDOM.createRoot(document.getElementById('root')).render(
+  // al tener el modo estricto se asegura que no se rompa la app y revisa dos veces.
   <React.StrictMode>
     <RecoilRoot>
     <BrowserRouter>

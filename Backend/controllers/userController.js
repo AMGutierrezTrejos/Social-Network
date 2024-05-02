@@ -94,13 +94,13 @@ const loginUser = async (req, res) => {
 
 // Logout user
 const logoutUser = (req, res) => {
-  try {
-    res.cookie("jwt", "", { maxAge: 1 });
-    res.status(200).json({ message: "User logged out successfully" });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-    console.log("Error in logoutUser: ", error.message);
-  }
+	try {
+		res.cookie("jwt", "", { maxAge: 1 });
+		res.status(200).json({ message: "User logged out successfully" });
+	} catch (err) {
+		res.status(500).json({ error: err.message });
+		console.log("Error in signupUser: ", err.message);
+	}
 };
 
 //Follow and unfollow user
@@ -182,7 +182,7 @@ const updateUser = async (req, res) => {
     // password not included in response
     user.password = null;
 
-    res.status(200).json({ user });
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
