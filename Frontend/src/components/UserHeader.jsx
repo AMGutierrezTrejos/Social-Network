@@ -1,6 +1,7 @@
 import {
   Avatar,
   Box,
+  Button,
   Flex,
   Menu,
   MenuButton,
@@ -13,13 +14,21 @@ import {
 import { BsInstagram } from "react-icons/bs";
 import { CgMoreO } from "react-icons/cg";
 import { useToast } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
+import { Link, Link as RouterLink } from "react-router-dom";
+import { useState } from "react";
+import useShowToast from "../hooks/useShowToast";
 
 const UserHeader = ({ user }) => {
   const toast = useToast();
-  const currentUser = useRecoilValue(userAtom);
+  const currentUser = useRecoilValue(userAtom); // Get the current user logged in
+  const [following, setFollowing] = useState(
+    user.followers.includes(currentUser._id)
+  );
+  const showToast = useShowToast();
+  const [updating, setUpdating] = useState(false);
+
   const copyURL = () => {
     const currentURL = window.location.href;
     navigator.clipboard.writeText(currentURL).then(() => {
@@ -31,6 +40,43 @@ const UserHeader = ({ user }) => {
         isClosable: true,
       });
     });
+  };
+
+  const handleFollowUnfollow = async () => {
+    if (!currentUser) {
+      showToast("Error", "You must be logged in to follow", "error");
+      return;
+    }
+    if (updating) return;
+    setUpdating(true);
+    try {
+      const res = await fetch(`/api/users/follow/${user._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await res.json();
+      if (data.error) {
+        showToast("Error", data.error, "error");
+        return;
+      }
+
+      if (following) {
+        showToast("Success", `Unfollowed ${user.name} successfully`, "success");
+        user.followers.pop();
+      } else {
+        showToast("Success", `Followed ${user.name} successfully`, "success");
+        user.followers.push(currentUser._id);
+      }
+
+      setFollowing(!following);
+    } catch (error) {
+      showToast("Error", error, "error");
+    } finally {
+      setUpdating(false);
+    }
   };
 
   return (
@@ -74,6 +120,18 @@ const UserHeader = ({ user }) => {
       {/* SEGUNDA CAJA CON TEXTO */}
 
       <Text> {user.bio}</Text>
+      {currentUser._id === user._id && (
+        <Link as={RouterLink} to="/update">
+          <Button size={"sm"}>Update Profile</Button>
+        </Link>
+      )}
+
+      {currentUser._id !== user._id && (
+        <Button size={"sm"} onClick={handleFollowUnfollow} isLoading={updating}>
+          {following ? "Unfollow" : "Follow"}
+        </Button>
+      )}
+
       <Flex w={"full"} justifyContent={"space-between"}>
         <Flex gap={2} alignItems={"center"}>
           <Text color={"gray.light"}>{user.followers.length} followers</Text>
