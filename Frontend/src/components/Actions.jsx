@@ -15,16 +15,16 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import useShowToast from "../hooks/useShowToast";
-import postsAtom from "../atoms/postsAtom";
 
-const Actions = ({ post }) => {
+
+const Actions = ({ post:post_ }) => {
   const user = useRecoilValue(userAtom);
+  const [post, setPost] = useState(post_);
   const [liked, setLiked] = useState(post.likes.includes(user?._id));
-  const [posts, setPosts] = useRecoilState(postsAtom);
-  const [isLiking, setIsLiking] = useState(false);
+  
   const [isReplying, setIsReplying] = useState(false);
   const [reply, setReply] = useState("");
 
@@ -38,8 +38,7 @@ const Actions = ({ post }) => {
         "You must be logged in to like a post",
         "error"
       );
-    if (isLiking) return;
-    setIsLiking(true);
+
     try {
       const res = await fetch("/api/posts/like/" + post._id, {
         method: "PUT",
@@ -52,29 +51,16 @@ const Actions = ({ post }) => {
 
       if (!liked) {
         // add the id of the current user to post.likes array
-        const updatedPosts = posts.map((p) => {
-          if (p._id === post._id) {
-            return { ...p, likes: [...p.likes, user._id] };
-          }
-          return p;
-        });
-        setPosts(updatedPosts);
+        setPost({ ...post, likes: [...post.likes, user._id] });
       } else {
         // remove the id of the current user from post.likes array
-        const updatedPosts = posts.map((p) => {
-          if (p._id === post._id) {
-            return { ...p, likes: p.likes.filter((id) => id !== user._id) };
-          }
-          return p;
-        });
-        setPosts(updatedPosts);
+        setPost({ ...post, likes: post.likes.filter(id => id !== user._id)});
       }
 
       setLiked(!liked);
+
     } catch (error) {
       showToast("Error", error.message, "error");
-    } finally {
-      setIsLiking(false);
     }
   };
 
