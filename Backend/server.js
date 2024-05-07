@@ -8,6 +8,7 @@ import { v2 as cloudinary } from "cloudinary";
 
 import userRoutes from "./routes/userRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
+import messageRoutes from "./routes/messageRoutes.js";
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ app.use(cookieParser()); // Analiza las cookies de las solicitudes entrantes y l
 //Routes
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
+app.use("/api/messages", messageRoutes);
 
 app.listen(5000, () =>
   console.log(`Server started at http://localhost:${PORT}`)
