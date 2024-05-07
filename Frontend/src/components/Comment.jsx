@@ -15,11 +15,9 @@ const Comment = ({ reply, lastReply }) => {
               {reply.username}
             </Text>
           </Flex>
-
           <Text>{reply.text}</Text>
         </Flex>
       </Flex>
-
       {!lastReply ? <Divider /> : null}
     </>
   );

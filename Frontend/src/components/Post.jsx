@@ -13,6 +13,7 @@ const Post = ({ post, postedBy }) => {
   const [user, setUser] = useState(null);
   const showToast = useShowToast();
   const currentUser = useRecoilValue(userAtom);
+
   const [posts, setPosts] = useRecoilState(postsAtom);
 
   const navigate = useNavigate();
@@ -50,6 +51,7 @@ const Post = ({ post, postedBy }) => {
         return;
       }
       showToast("Success", "Post deleted", "success");
+
       setPosts(posts.filter((p) => p._id !== post._id));
     } catch (error) {
       showToast("Error", error.message, "error");
