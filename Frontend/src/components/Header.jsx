@@ -7,6 +7,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi";
 import useLogout from "../hooks/useLogout";
 import authScreenAtom from "../atoms/authAtom";
+import { FaRocketchat } from "react-icons/fa";
 const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const user = useRecoilValue(userAtom);
@@ -37,6 +38,9 @@ const Header = () => {
         <Flex alignItems={"center"} gap={4}>
           <Link as={RouterLink} to={`${user.username}`}>
             <RxAvatar size={24} />
+          </Link>
+          <Link as={RouterLink} to={`/chat`}>
+          <FaRocketchat size={20}/>
           </Link>
           <Button size={"xs"} onClick={logout}>
             <FiLogOut size={20} />
