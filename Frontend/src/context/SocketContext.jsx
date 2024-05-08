@@ -15,7 +15,7 @@ export const SocketContextProvider = ({ children }) => {
 	const user = useRecoilValue(userAtom);
 
 	useEffect(() => {
-		const socket = io("/", { // este es esencial para que funcione el socket. mientras se hace el deploy, el back-end va a estar en el 5000.
+		const socket = io("localhost:5000", { // este es esencial para que funcione el socket. mientras se hace el deploy, el back-end va a estar en el 5000.
 		// const socket = io("http://localhost:5000", { // este es esencial para que funcione el socket. mientras se hace el deploy, el back-end va a estar en el 5000.
 			query: {
 				userId: user?._id,
